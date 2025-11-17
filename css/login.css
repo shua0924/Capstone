@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/* Background */
+body {
+  background: url('../images/bodybackground.png') no-repeat center center fixed;
+  background-size: cover; /* para sakto ug dili ma-ulahi */
+  margin: 0;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Login Box */
+.login-box { 
+  background: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  width: 350px;
+  text-align: center;
+}
+
+/* Logo */
+.logo {
+  width: 90px;
+  margin-bottom: 15px;
+}
+
+/* Fieldset with legend */
+fieldset {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 4px;
+  text-align: left;
+}
+
+legend {
+  font-size: 13px;
+  font-weight: bold;
+  padding: 0 6px;
+  color: #111;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+input:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+/* Checkboxes */
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  font-size: 13px;
+  margin: 8px 0;
+  color: #444;
+}
+
+.checkbox input {
+  margin-right: 6px;
+  margin-top: 2px;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 10px;
+  background: #6ba8ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #4a90e2;
+}
+
+/* Footer */
+.footer {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #666;
+}
+
+.footer span {
+  font-weight: bold;
+}
