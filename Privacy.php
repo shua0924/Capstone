@@ -23,6 +23,7 @@
 
       <!-- Right side (desktop links) -->
       <div id="menuLinks" class="hidden sm:flex items-center space-x-0 text-gray-700 text-[14px] sm:text-[15px] md:text-[16px]">
+        <a href="#priv" class= "px-4 py-2 rounded-lg transition hover:bg-[#A9ADD3] hover:text-black">Privacy</a> 
         <a href="#info" class= "px-4 py-2 rounded-lg transition hover:bg-[#A9ADD3] hover:text-black">Information</a>
         <a href="#cont" class="px-4 py-2 rounded-lg transition hover:bg-[#A9ADD3] hover:text-black">Contact Us</a>
       </div>
@@ -33,12 +34,13 @@
 
     <!-- Mobile dropdown -->
     <div id="mobileMenu" class="hidden flex-col sm:hidden border-t border-gray-200 bg-white text-gray-700 text-base">
+      <a href="priv" class="block px-6 py-3 hover:bg-gray-100">Privacy</a>
       <a href="#info" class="block px-6 py-3 hover:bg-gray-100">Information</a>
       <a href="#cont" class="block px-6 py-3 hover:bg-gray-100">Contact Us</a>
     </div>
   </nav>
 
-  <section class="sm:mx-[]">
+  <section id="priv" class="sm:mx-[]">
      <p class=" ml-20 mr-20 mt-10 font-bold khula text-2xl text-blacke-900">Privacy Notice</p>
      <p class=" mt-20 ml-20 mr-20 font-semibold">CEBU EASTERN COLLEGE PRIVACY NOTICE (REVISE AS OF THE 1st SEMESTER/2nd SEMESTER 2024-2025)</p>
      <p class=" ml-20 mr-20 mt-10 font-bold khula text-x1 text-black-900">POLICY</p>
