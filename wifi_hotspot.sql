@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2025 at 02:06 AM
+-- Generation Time: Dec 02, 2025 at 03:24 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -95,20 +95,35 @@ CREATE TABLE `users_log` (
 --
 
 CREATE TABLE `users_profile` (
-  `user_id` int(11) NOT NULL,
-  `voucher_id` int(11) NOT NULL,
-  `school_id` varchar(20) NOT NULL,
-  `last_name` varchar(100) NOT NULL,
-  `first_name` varchar(100) NOT NULL,
-  `middle_name` varchar(100) DEFAULT NULL,
-  `contact_number` varchar(20) DEFAULT NULL,
-  `year_level` enum('1st Year','2nd Year','3rd Year','4th Year','Graduate') DEFAULT '1st Year',
-  `courses_id` int(10) NOT NULL,
-  `status` enum('active','inactive','banned') DEFAULT 'active',
-  `user_type` enum('student','teacher') NOT NULL DEFAULT 'student',
-  `created_by` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
+  `student_id` varchar(50) DEFAULT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `mi` varchar(10) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `gmail` varchar(100) DEFAULT NULL,
+  `contact` varchar(20) DEFAULT NULL,
+  `course` varchar(50) DEFAULT NULL,
+  `year_level` varchar(50) DEFAULT NULL,
+  `gender` varchar(20) DEFAULT NULL,
+  `role` varchar(20) DEFAULT NULL,
+  `voucher_code` varchar(100) DEFAULT NULL,
+  `password_generated` varchar(255) DEFAULT NULL,
+  `status` varchar(20) DEFAULT 'Active',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users_profile`
+--
+
+INSERT INTO `users_profile` (`id`, `student_id`, `first_name`, `mi`, `last_name`, `gmail`, `contact`, `course`, `year_level`, `gender`, `role`, `voucher_code`, `password_generated`, `status`, `created_at`) VALUES
+(1, '1231123123', 'a', 'a', 'a', 'a@gmail.com', '123123123213', 'BSED', '2nd Year', 'Other', 'Student', NULL, NULL, 'Active', '2025-11-27 13:14:57'),
+(2, 'a', 'a', 'a', 'a', 'aa@gmail.com', 'a', 'BSED', '3rd Year', 'Female', 'Student', NULL, NULL, 'Active', '2025-11-27 13:21:07'),
+(3, 'b', 'b', 'b', 'b', 'b@gmail.com', '123', 'BSTM', '4th Year', 'Female', 'Student', NULL, NULL, 'Active', '2025-11-27 14:34:42'),
+(4, '2210992', 'Nick Lourence', '', 'Brandares', 'nlbrandares@gmail.com', '09227999000', 'BSIT', '3rd Year', 'Male', 'Student', NULL, NULL, 'Active', '2025-11-27 15:07:48'),
+(5, 'c', 'c', 'c', 'c', 'c@gmail.com', '09214801924', 'BSTM', '3rd Year', 'Other', 'Student', NULL, NULL, 'Active', '2025-11-27 15:24:58'),
+(6, 'd', 'd', 'd', 'd', 'd@gmail.com', '09227999000', 'BSCRIM', '1st Year', 'Other', 'Student', NULL, NULL, 'Active', '2025-11-29 08:42:02'),
+(7, 'e', 'e', 'e', 'e', 'e@gmail.com', '123456', 'BSTM', '4th Year', 'Other', 'Student', NULL, NULL, 'Active', '2025-12-02 10:39:52');
 
 -- --------------------------------------------------------
 
@@ -117,8 +132,8 @@ CREATE TABLE `users_profile` (
 --
 
 CREATE TABLE `vouchers` (
-  `voucher_id` int(11) NOT NULL,
-  `code` varchar(50) NOT NULL,
+  `id` int(11) NOT NULL,
+  `voucher_code` varchar(50) NOT NULL,
   `status` enum('unused','active','expired','used') DEFAULT 'unused',
   `valid_from` datetime DEFAULT current_timestamp(),
   `valid_until` datetime DEFAULT NULL,
@@ -162,15 +177,14 @@ ALTER TABLE `users_log`
 -- Indexes for table `users_profile`
 --
 ALTER TABLE `users_profile`
-  ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `school_id` (`school_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `vouchers`
 --
 ALTER TABLE `vouchers`
-  ADD PRIMARY KEY (`voucher_id`),
-  ADD UNIQUE KEY `code` (`code`),
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`voucher_code`),
   ADD KEY `created_by` (`created_by`);
 
 --
@@ -205,13 +219,13 @@ ALTER TABLE `users_log`
 -- AUTO_INCREMENT for table `users_profile`
 --
 ALTER TABLE `users_profile`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `vouchers`
 --
 ALTER TABLE `vouchers`
-  MODIFY `voucher_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
