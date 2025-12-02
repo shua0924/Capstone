@@ -1,3 +1,23 @@
+<?php 
+require 'db.php';
+
+// FETCH vouchers WITH user info
+$sql = "
+    SELECT
+        v.voucher_code,
+        v.status,
+        v.created_at,
+        v.time_limit_minutes,
+        CONCAT(u.first_name, ' ', u.last_name) AS full_name
+    FROM vouchers v
+    LEFT JOIN users_profile u ON v.student_id = u.id
+    ORDER BY v.id DESC
+";
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$vouchers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -100,136 +120,67 @@
       </thead>
 
       <tbody class="bg-white">
-        <tr class="hover:bg-gray-100 border-b border-gray-200">
-          <td class="px-4 py-3 text-sm font-medium">CEC-2025-001</td>
-          <td class="px-4 py-3 text-sm">Leandro Labos</td>
-          <td class="px-4 py-3 text-sm">
-            <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-semibold">Active</span>
-          </td>
-          <td class="px-4 py-3 text-sm">Oct 27, 2025</td>
-          <td class="px-4 py-3 text-sm">Nov 26, 2025</td>
-          <td class="px-4 py-3 text-sm">
-            <div class="flex space-x-3">
-              <!-- See More -->
-              <button class="text-blue-600 hover:text-blue-800" title="See More">
-                <i class="fa-solid fa-eye"></i>
-              </button>
-              <!-- Edit -->
-              <button class="text-green-600 hover:text-green-800" title="Edit">
-                <i class="fa-solid fa-edit"></i>
-              </button>
-              <!-- Delete -->
-              <button class="text-red-600 hover:text-red-800" title="Delete">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
 
+        <?php foreach ($vouchers as $v): ?>
         <tr class="hover:bg-gray-100 border-b border-gray-200">
-          <td class="px-4 py-3 text-sm font-medium">CEC-2025-002</td>
-          <td class="px-4 py-3 text-sm">Gil Z. Arda</td>
-          <td class="px-4 py-3 text-sm">
-            <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-semibold">Active</span>
-          </td>
-          <td class="px-4 py-3 text-sm">Oct 26, 2025</td>
-          <td class="px-4 py-3 text-sm">Nov 25, 2025</td>
-          <td class="px-4 py-3 text-sm">
-            <div class="flex space-x-3">
-              <!-- See More -->
-              <button class="text-blue-600 hover:text-blue-800" title="See More">
-                <i class="fa-solid fa-eye"></i>
-              </button>
-              <!-- Edit -->
-              <button class="text-green-600 hover:text-green-800" title="Edit">
-                <i class="fas fa-edit"></i>
-              </button>
-              <!-- Delete -->
-              <button class="text-red-600 hover:text-red-800" title="Delete">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
 
-        <tr class="hover:bg-gray-100 border-b border-gray-200">
-          <td class="px-4 py-3 text-sm font-medium">CEC-2025-001</td>
-          <td class="px-4 py-3 text-sm">Leandro Labos</td>
-          <td class="px-4 py-3 text-sm">
-            <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-semibold">Active</span>
-          </td>
-          <td class="px-4 py-3 text-sm">Oct 27, 2025</td>
-          <td class="px-4 py-3 text-sm">Nov 26, 2025</td>
-          <td class="px-4 py-3 text-sm">
-            <div class="flex space-x-3">
-              <!-- See More -->
-              <button class="text-blue-600 hover:text-blue-800" title="See More">
-                <i class="fa-solid fa-eye"></i>
-              </button>
-              <!-- Edit -->
-              <button class="text-green-600 hover:text-green-800" title="Edit">
-                <i class="fa-solid fa-edit"></i>
-              </button>
-              <!-- Delete -->
-              <button class="text-red-600 hover:text-red-800" title="Delete">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
+            <!-- Voucher Code -->
+            <td class="px-4 py-3 text-sm font-medium">
+                <?= htmlspecialchars($v['voucher_code']) ?>
+            </td>
 
-        <tr class="hover:bg-gray-100 border-b border-gray-200">
-          <td class="px-4 py-3 text-sm font-medium">CEC-2025-001</td>
-          <td class="px-4 py-3 text-sm">Leandro Labos</td>
-          <td class="px-4 py-3 text-sm">
-            <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-semibold">Active</span>
-          </td>
-          <td class="px-4 py-3 text-sm">Oct 27, 2025</td>
-          <td class="px-4 py-3 text-sm">Nov 26, 2025</td>
-          <td class="px-4 py-3 text-sm">
-            <div class="flex space-x-3">
-              <!-- See More -->
-              <button class="text-blue-600 hover:text-blue-800" title="See More">
-                <i class="fa-solid fa-eye"></i>
-              </button>
-              <!-- Edit -->
-              <button class="text-green-600 hover:text-green-800" title="Edit">
-                <i class="fa-solid fa-edit"></i>
-              </button>
-              <!-- Delete -->
-              <button class="text-red-600 hover:text-red-800" title="Delete">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
+            <!-- User Name -->
+            <td class="px-4 py-3 text-sm">
+                <?= htmlspecialchars($v['full_name'] ?? 'Unknown User') ?>
+            </td>
 
-        <tr class="hover:bg-gray-100 border-b border-gray-200">
-          <td class="px-4 py-3 text-sm font-medium">CEC-2025-001</td>
-          <td class="px-4 py-3 text-sm">Leandro Labos</td>
-          <td class="px-4 py-3 text-sm">
-            <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-semibold">Active</span>
-          </td>
-          <td class="px-4 py-3 text-sm">Oct 27, 2025</td>
-          <td class="px-4 py-3 text-sm">Nov 26, 2025</td>
-          <td class="px-4 py-3 text-sm">
-            <div class="flex space-x-3">
-              <!-- See More -->
-              <button class="text-blue-600 hover:text-blue-800" title="See More">
-                <i class="fa-solid fa-eye"></i>
-              </button>
-              <!-- Edit -->
-              <button class="text-green-600 hover:text-green-800" title="Edit">
-                <i class="fa-solid fa-edit"></i>
-              </button>
-              <!-- Delete -->
-              <button class="text-red-600 hover:text-red-800" title="Delete">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </td>
+            <!-- Status -->
+            <td class="px-4 py-3 text-sm">
+                <?php if ($v['status'] === 'Active'): ?>
+                    <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-semibold">
+                        Active
+                    </span>
+                <?php else: ?>
+                    <span class="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-semibold">
+                        <?= htmlspecialchars($v['status']) ?>
+                    </span>
+                <?php endif; ?>
+            </td>
+
+            <!-- Created At -->
+            <td class="px-4 py-3 text-sm">
+                <?= date("M d, Y", strtotime($v['created_at'])) ?>
+            </td>
+
+            <!-- Expiration Date -->
+            <td class="px-4 py-3 text-sm">
+                <?= date("M d, Y", strtotime($v['expiration_date'])) ?>
+            </td>
+
+            <!-- Actions -->
+            <td class="px-4 py-3 text-sm">
+                <div class="flex space-x-3">
+
+                    <button class="text-blue-600 hover:text-blue-800" title="See More">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+
+                    <button class="text-green-600 hover:text-green-800" title="Edit">
+                        <i class="fa-solid fa-edit"></i>
+                    </button>
+
+                    <button class="text-red-600 hover:text-red-800" title="Delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+
+                </div>
+            </td>
+
         </tr>
-      </tbody>
+        <?php endforeach; ?>
+
+        </tbody>
+
     </table>
   </div>
 </div>
