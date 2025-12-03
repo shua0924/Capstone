@@ -5,38 +5,38 @@ require 'db.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Collect and sanitize POST data
     $first_name = trim($_POST['first_name'] ?? '');
-    $mi = trim($_POST['mi'] ?? '');
+    $middle_name = trim($_POST['middle_name'] ?? '');
     $last_name = trim($_POST['last_name'] ?? '');
-    $student_id = trim($_POST['student_id'] ?? '');
+    $school_id = trim($_POST['school_id'] ?? '');
     $gender = trim($_POST['gender'] ?? '');
     $gmail = trim($_POST['gmail'] ?? '');
-    $contact = trim($_POST['contact'] ?? '');
-    $course = trim($_POST['course'] ?? '');
+    $contact_number = trim($_POST['contact_number'] ?? '');
+    $course_name = trim($_POST['course_name'] ?? '');
     $year_level = trim($_POST['year_level'] ?? '');
-    $role = trim($_POST['role'] ?? 'Student');
+    $user_type = trim($_POST['user_type'] ?? 'Student');
 
     // Simple validation example (you can extend this)
     $errors = [];
     if ($first_name === '') $errors[] = 'First name is required';
     if ($last_name === '') $errors[] = 'Last name is required';
-    if ($student_id === '') $errors[] = 'Student ID is required';
+    if ($school_id === '') $errors[] = 'Student ID is required';
     if ($gmail === '' || !filter_var($gmail, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required';
 
     if (empty($errors)) {
         // Insert into database
-        $stmt = $pdo->prepare("INSERT INTO users_profile (first_name, mi, last_name, student_id, gender, gmail, contact, course, year_level, role, status, created_at) VALUES (:first_name, :mi, :last_name, :student_id, :gender, :gmail, :contact, :course, :year_level, :role, 'Active', NOW())");
+        $stmt = $pdo->prepare("INSERT INTO users_profile (first_name, middle_name, last_name, school_id, gender, gmail, contact_number, course_name, year_level, user_type, status, created_at) VALUES (:first_name, :middle_name, :last_name, :school_id, :gender, :gmail, :contact_number, :course_name, :year_level, :user_type, 'Active', NOW())");
 
         $stmt->execute([
             ':first_name' => $first_name,
-            ':mi' => $mi,
+            ':middle_name' => $middle_name,
             ':last_name' => $last_name,
-            ':student_id' => $student_id,
+            ':school_id' => $school_id,
             ':gender' => $gender,
             ':gmail' => $gmail,
-            ':contact' => $contact,
-            ':course' => $course,
+            ':contact_number' => $contact_number,
+            ':course_name' => $course_name,
             ':year_level' => $year_level,
-            ':role' => $role
+            ':user_type' => $user_type
         ]);
 
         // Redirect to avoid form resubmission on refresh
@@ -44,42 +44,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
-// Fetch all users for table
-$stmt = $pdo->query("SELECT * FROM users_profile ORDER BY id DESC");
-$users = $stmt->fetchAll();
-
-// Handle filters from GET
-$course = isset($_GET['course']) ? trim($_GET['course']) : '';
-$year_level = isset($_GET['year_level']) ? trim($_GET['year_level']) : '';
-$q = isset($_GET['q']) ? trim($_GET['q']) : '';
-
-// Build query
-$sql = "SELECT * FROM users WHERE 1=1";
-$params = [];
-
-if ($course !== '') {
-    $sql .= " AND course = :course";
-    $params[':course'] = $course;
-}
-if ($year_level !== '') {
-    $sql .= " AND year_level = :year_level";
-    $params[':year_level'] = $year_level;
-}
-if ($q !== '') {
-    $sql .= " AND (student_id LIKE :q OR first_name LIKE :q OR last_name LIKE :q OR gmail LIKE :q)";
-    $params[':q'] = "%$q%";
-}
-
-$course = $_GET['course'] ?? '';
-$year_level = $_GET['year_level'] ?? '';
-$q = $_GET['q'] ?? '';
+// Handle filters
+$course_name = trim($_GET['course_name'] ?? '');
+$year_level = trim($_GET['year_level'] ?? '');
+$q = trim($_GET['q'] ?? '');
 
 $sql = "SELECT * FROM users_profile WHERE 1=1";
 $params = [];
 
-if ($course !== '') {
-    $sql .= " AND course = :course";
-    $params[':course'] = $course;
+if ($course_name !== '') {
+    $sql .= " AND course_name = :course_name";
+    $params[':course_name'] = $course_name;
 }
 
 if ($year_level !== '') {
@@ -88,18 +63,21 @@ if ($year_level !== '') {
 }
 
 if ($q !== '') {
-    $sql .= " AND (student_id LIKE :q
-                OR first_name LIKE :q
-                OR last_name LIKE :q
-                OR gmail LIKE :q)";
+    $sql .= " AND (
+        school_id LIKE :q OR
+        first_name LIKE :q OR
+        last_name LIKE :q OR
+        gmail LIKE :q
+    )";
     $params[':q'] = "%$q%";
 }
 
-$sql .= " ORDER BY id DESC";
+$sql .= " ORDER BY user_id DESC";
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $users = $stmt->fetchAll();
+
 
 ?>
 <!DOCTYPE html>
@@ -163,14 +141,14 @@ $users = $stmt->fetchAll();
         </div>
 
         <form method="get" id="filterForm" class="flex gap-4 items-center">
-          <select name="course" id="course" class="bg-gray-100 border border-gray-300 rounded-md px-3 py-2 text-sm">
+          <select name="course_name" id="course_name" class="bg-gray-100 border border-gray-300 rounded-md px-3 py-2 text-sm">
             <option value="">Course</option>
-            <option <?= $course==='BSIT'?'selected':'' ?>>BSIT</option>
-            <option <?= $course==='BSHM'?'selected':'' ?>>BSHM</option>
-            <option <?= $course==='BSTM'?'selected':'' ?>>BSTM</option>
-            <option <?= $course==='BEED'?'selected':'' ?>>BEED</option>
-            <option <?= $course==='BSED'?'selected':'' ?>>BSED</option>
-            <option <?= $course==='BSCRIM'?'selected':'' ?>>BSCRIM</option>
+            <option value="BSIT" <?= $course_name==='BSIT'?'selected':'' ?>>BSIT</option>
+            <option value="BSHM" <?= $course_name==='BSHM'?'selected':'' ?>>BSHM</option>
+            <option value="BSTM" <?= $course_name==='BSTM'?'selected':'' ?>>BSTM</option>
+            <option value="BEED" <?= $course_name==='BEED'?'selected':'' ?>>BEED</option>
+            <option value="BSED" <?= $course_name==='BSED'?'selected':'' ?>>BSED</option>
+            <option value="BSCRIM" <?= $course_name==='BSCRIM'?'selected':'' ?>>BSCRIM</option>
           </select>
 
           <select name="year_level" id="year_level" class="bg-gray-100 border border-gray-300 rounded-md px-3 py-2 text-sm">
@@ -195,7 +173,6 @@ $users = $stmt->fetchAll();
             <button id="closeModalBtn" class="text-gray-500 hover:text-gray-700 text-xl font-bold">×</button>
           </div>
 
-          <form id="createUserForm" method="post" action="create_user.php">
             <div class="grid grid-cols-3 gap-2 mb-2">
               <div>
                 <label class="block text-sm font-medium text-gray-700">First Name</label>
@@ -203,7 +180,7 @@ $users = $stmt->fetchAll();
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700">MI</label>
-                <input id="mi" name="mi" type="text" placeholder="M" class="w-full mt-1 border rounded px-3 py-2 text-sm">
+                <input id="middle_name" name="middle_name" type="text" placeholder="M" class="w-full mt-1 border rounded px-3 py-2 text-sm">
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700">Last Name</label>
@@ -214,7 +191,7 @@ $users = $stmt->fetchAll();
             <div class="flex gap-3 justify-between">
               <div>
                 <label class="block text-sm font-medium text-gray-700">Student ID</label>
-                <input id="student_id" name="student_id" required type="text" placeholder="Enter Student ID" class="w-[14.5rem] mt-1 border rounded px-3 py-2 text-sm">
+                <input id="school_id" name="school_id" required type="text" placeholder="Enter Student ID" class="w-[14.5rem] mt-1 border rounded px-3 py-2 text-sm">
               </div>
 
               <div>
@@ -234,19 +211,19 @@ $users = $stmt->fetchAll();
 
             <div class="mb-2">
               <label class="block text-sm font-medium text-gray-700">Contact</label>
-              <input id="contact" name="contact" type="text" placeholder="09XXXXXXXXX" class="w-full mt-1 border rounded px-3 py-2 text-sm">
+              <input id="contact_number" name="contact_number" type="text" placeholder="09XXXXXXXXX" class="w-full mt-1 border rounded px-3 py-2 text-sm">
             </div>
 
             <div class="flex gap-4">
               <div class="flex-1">
                 <label class="block text-sm font-medium text-gray-700">Course</label>
-                <select id="course" name="course" class="w-full mt-1 border rounded px-3 py-2 text-sm">
-                  <option>BSIT</option>
-                  <option>BSED</option>
-                  <option>BEED</option>
-                  <option>BSHM</option>
-                  <option>BSTM</option>
-                  <option>BSCRIM</option>
+                <select id="course_name" name="course_name" class="w-full mt-1 border rounded px-3 py-2 text-sm">
+                  <option value="BSIT">BSIT</option>
+                  <option value="BSED">BSED</option>
+                  <option value="BEED">BEED</option>
+                  <option value="BSHM">BSHM</option>
+                  <option value="BSTM">BSTM</option>
+                  <option value="BSCRIM">BSCRIM</option>
                 </select>
               </div>
 
@@ -274,7 +251,7 @@ $users = $stmt->fetchAll();
               <label class="block text-sm font-medium text-gray-700">Role</label>
               <div class="flex items-center space-x-6 mt-1">
                 <label class="flex items-center space-x-1">
-                  <input type="radio" name="role" value="Student" checked>
+                  <input type="radio" name="user_type" value="Student" checked>
                   <span>Student</span>
                 </label>
               </div>
@@ -287,7 +264,7 @@ $users = $stmt->fetchAll();
         </div>
       </div>
 
-      <div class="w-[1000px] bg-white shadow-md rounded-lg overflow-hidden border border-blue-300 mt-4">
+      <div class="w-[1080px] bg-white shadow-md rounded-lg overflow-hidden border border-blue-300 mt-4">
         <div class="overflow-x-auto">
           <table class="min-w-full border-collapse">
             <thead class="bg-[#4B6BFB] text-white">
@@ -305,17 +282,17 @@ $users = $stmt->fetchAll();
             <tbody class="bg-white">
               <?php foreach ($users as $u): ?>
                 <tr class="hover:bg-gray-100 border-b border-gray-200">
-                  <td class="px-4 py-3 text-sm"><?= htmlentities($u['student_id']) ?></td>
-                  <td class="px-4 py-3 text-sm"><?= htmlentities($u['first_name'] . ' ' . ($u['mi'] ? $u['mi'].' ' : '') . $u['last_name']) ?></td>
+                  <td class="px-4 py-3 text-sm"><?= htmlentities($u['school_id']) ?></td>
+                  <td class="px-4 py-3 text-sm"><?= htmlentities($u['first_name'] . ' ' . ($u['middle_name'] ? $u['middle_name'].' ' : '') . $u['last_name']) ?></td>
                   <td class="px-4 py-3 text-sm"><?= htmlentities($u['gmail']) ?></td>
-                  <td class="px-4 py-3 text-sm"><?= htmlentities($u['course']) ?></td>
+                  <td class="px-4 py-3 text-sm"><?= htmlentities($u['course_name']) ?></td>
                   <td class="px-4 py-3 text-sm"><?= htmlentities($u['year_level']) ?></td>
                   <td class="px-4 py-3 text-sm <?= $u['status']==='Active'?'text-green-600':'text-red-600' ?>"><?= htmlentities($u['status']) ?></td>
                   <td class="px-4 py-3 text-sm">
                     <div class="flex space-x-3">
-                      <a class="text-blue-600 hover:text-blue-800" href="view_user.php?id=<?= $u['id'] ?>" title="See More"><i class="fa-solid fa-eye"></i></a>
-                      <a class="text-green-600 hover:text-green-800" href="edit_user.php?id=<?= $u['id'] ?>"><i class="fas fa-edit"></i></a>
-                      <button onclick="deleteUser(<?= $u['id'] ?>)" class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
+                      <a class="text-blue-600 hover:text-blue-800" href="view_user.php?id=<?= $u['user_id'] ?>" title="See More"><i class="fa-solid fa-eye"></i></a>
+                      <a class="text-green-600 hover:text-green-800" href="edit_user.php?id=<?= $u['user_id'] ?>"><i class="fas fa-edit"></i></a>
+                      <button onclick="deleteUser(<?= $u['user_id'] ?>)" class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
                     </div>
                   </td>
                 </tr>
@@ -390,7 +367,7 @@ $users = $stmt->fetchAll();
 
   document.addEventListener("DOMContentLoaded", () => {
 
-    const courseSelect = document.getElementById("course");
+    const courseSelect = document.getElementById("course_name");
     const yearSelect = document.getElementById("year_level");
     const searchInput = document.getElementById("search_user");
     const filterForm = document.getElementById("filterForm");
