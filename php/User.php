@@ -238,8 +238,10 @@ $users = $stmt->fetchAll();
               </div>
             </div>
 
+            <form id="voucherForm">
             <div class="flex justify-between space-x-3 mt-3">
               <button type="button" id="generateVoucher" class="bg-blue-500 text-white px-4 py-2 rounded w-1/2">Generate Voucher</button>
+            </form>
               <button type="button" id="generatePassword" class="bg-blue-500 text-white px-4 py-2 rounded w-1/2">Generate Password</button>
             </div>
 
