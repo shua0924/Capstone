@@ -5,15 +5,17 @@ require 'db.php';
 $sql = "
     SELECT
         v.code,
-        v.used,                     -- Now selecting the 'used' column (0 or 1)
+        v.used,
         v.created_at,
         v.time_limit_minutes,
-        v.used_at,                  -- Added v.used_at to calculate expiration properly
+        v.used_at,
         CONCAT(u.first_name, ' ', u.last_name) AS full_name
     FROM vouchers v
-    LEFT JOIN users_profile u ON v.id = u.user_id
+    LEFT JOIN users_profile u 
+        ON v.user_profile_id = u.user_id
     ORDER BY v.id DESC
 ";
+
 
 try {
     $stmt = $pdo->prepare($sql);
