@@ -259,15 +259,7 @@ $users = $stmt->fetchAll();
               </div>
             </div>
 
-            <form id="voucherForm">
-              <div class="flex justify-between space-x-3 mt-3">
-                <button type="button" id="generateVoucher"
-                  class="bg-blue-500 text-white px-4 py-2 rounded w-1/2">Generate Voucher</button>
-            </form>
-            <button type="button" id="generatePassword" class="bg-blue-500 text-white px-4 py-2 rounded w-1/2">Generate
-              Password</button>
-          </div>
-
+            
           <div id="successMsg"
             class="hidden mt-3 text-green-800 bg-green-100 border border-green-300 rounded-md px-3 py-2 text-sm text-center">
             <strong id="successCode"></strong> — Success! New user created successfully.
@@ -328,8 +320,10 @@ $users = $stmt->fetchAll();
                         class="fas fa-trash"></i></button>
                     <button onclick="generateVoucher(<?= $u['user_id'] ?>)" class="text-purple-600 hover:text-purple-800"
                       title="Generate Voucher">
-                      <i class="fa-solid fa-ticket"></i>
-                    </button>
+                      <i class="fa-solid fa-ticket"></i></button>
+                    <button onclick="generatePassword(<?= $u['user_id'] ?>)" class="text-purple-600 hover:text-purple-800"
+                      title="Generate Password">
+                      <i class="fa-solid fa-key"></i></button>
                   </div>
                 </td>
               </tr>
