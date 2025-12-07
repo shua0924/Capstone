@@ -14,7 +14,7 @@
     <div class="flex">
         <!-- Sidebar -->
 
-        <div class="w-64 bg-white-200  p-8 text-white shadow-lg overflow-y-auto">
+        <div class="w-64 bg-white-700  p-8 text-white shadow-lg overflow-y-auto">
             <div class="flex items-center space-x-2 mb-24">
                 <h1 class="text-2xl font-semibold text-black">WiFi Hotspot</h1>
             </div>

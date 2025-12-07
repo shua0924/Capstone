@@ -1,4 +1,4 @@
-<?php 
+<?php
 require 'db.php';
 
 // --- FIX 1: Change 'v.status' to 'v.used' in the SELECT list ---
@@ -31,11 +31,12 @@ try {
  * This is necessary because the table displays 'Expiration Date',
  * which depends on the voucher being used or not.
  */
-function calculate_expiration($voucher) {
+function calculate_expiration($voucher)
+{
     // If the voucher is used, expiration starts from the time it was used.
     $start_timestamp = strtotime($voucher['used_at'] ?? $voucher['created_at']);
-    $minutes = (int)$voucher['time_limit_minutes'];
-    
+    $minutes = (int) $voucher['time_limit_minutes'];
+
     // Calculate expiration time (used_at + time_limit_minutes, or created_at + time_limit_minutes if unused)
     $expiration_timestamp = $start_timestamp + ($minutes * 60);
 
@@ -130,80 +131,99 @@ function calculate_expiration($voucher) {
             </div>
 
             <div class="bg-white shadow-md rounded-lg overflow-hidden border border-blue-300">
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto max-h-96 overflow-y-auto">
                     <table class="min-w-full border-collapse">
                         <thead class="bg-[#4B6BFB] text-white">
                             <tr>
-                                <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Voucher Code</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Voucher
+                                    Code</th>
                                 <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Name</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Status</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Created At</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Expiration Info</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Action</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Status
+                                </th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Created
+                                    At</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">
+                                    Expiration Info</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Action
+                                </th>
                             </tr>
                         </thead>
 
                         <tbody class="bg-white">
 
                             <?php foreach ($vouchers as $v): ?>
-                            <tr class="hover:bg-gray-100 border-b border-gray-200">
+                                <tr class="hover:bg-gray-100 border-b border-gray-200">
 
-                                <td class="px-4 py-3 text-sm font-medium">
-                                    <?= htmlspecialchars($v['code']) ?>
-                                </td>
+                                    <td class="px-4 py-3 text-sm font-medium">
+                                        <?= htmlspecialchars($v['code']) ?>
+                                    </td>
 
-                                <td class="px-4 py-3 text-sm">
-                                    <?= htmlspecialchars($v['full_name'] ?? 'Unknown User') ?>
-                                </td>
+                                    <td class="px-4 py-3 text-sm">
+                                        <?= htmlspecialchars($v['full_name'] ?? 'Unknown User') ?>
+                                    </td>
 
-                                <td class="px-4 py-3 text-sm">
-                                    <?php if ($v['used'] == 0): ?>
-                                        <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-semibold">
-                                            Active (Unused)
-                                        </span>
-                                    <?php else: 
-                                        $exp_status = calculate_expiration($v);
-                                        $status_text = ($exp_status['text'] == 'Expired') ? 'Expired' : 'Used';
-                                        $status_class = ($exp_status['text'] == 'Expired') ? 'red' : 'blue';
-                                    ?>
-                                        <span class="bg-<?= $status_class ?>-100 text-<?= $status_class ?>-700 px-2 py-1 rounded-full text-xs font-semibold">
-                                            <?= $status_text ?>
-                                        </span>
-                                    <?php endif; ?>
-                                </td>
+                                    <td class="px-4 py-3 text-sm">
+                                        <?php if ($v['used'] == 0): ?>
+                                            <span
+                                                class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-semibold">
+                                                Active (Unused)
+                                            </span>
+                                        <?php else:
+                                            $exp_status = calculate_expiration($v);
+                                            $status_text = ($exp_status['text'] == 'Expired') ? 'Expired' : 'Used';
+                                            $status_class = ($exp_status['text'] == 'Expired') ? 'red' : 'blue';
+                                            ?>
+                                            <span
+                                                class="bg-<?= $status_class ?>-100 text-<?= $status_class ?>-700 px-2 py-1 rounded-full text-xs font-semibold">
+                                                <?= $status_text ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </td>
 
-                                <td class="px-4 py-3 text-sm">
-                                    <?= date("M d, Y", strtotime($v['created_at'])) ?>
-                                </td>
+                                    <td class="px-4 py-3 text-sm">
+                                        <?= date("M d, Y", strtotime($v['created_at'])) ?>
+                                    </td>
 
-                                <td class="px-4 py-3 text-sm">
-                                    <?php 
+                                    <td class="px-4 py-3 text-sm">
+                                        <?php
                                         $exp_info = calculate_expiration($v);
                                         $color_class = [
                                             'green' => 'text-green-600 font-semibold',
                                             'red' => 'text-red-600 font-bold',
                                             'gray' => 'text-gray-500',
                                         ][$exp_info['class']] ?? 'text-gray-500';
-                                    ?>
-                                    <span class="<?= $color_class ?>">
-                                        <?= $exp_info['text'] ?>
-                                    </span>
-                                </td>
+                                        ?>
+                                        <span class="<?= $color_class ?>">
+                                            <?= $exp_info['text'] ?>
+                                        </span>
+                                    </td>
 
-                                <td class="px-4 py-3 text-sm">
-                                    <div class="flex space-x-3">
-                                        <button class="text-blue-600 hover:text-blue-800" title="See More">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </button>
-                                        <button class="text-green-600 hover:text-green-800" title="Edit">
-                                            <i class="fa-solid fa-edit"></i>
-                                        </button>
-                                        <button class="text-red-600 hover:text-red-800" title="Delete">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                    <td class="px-4 py-3 text-sm">
+                                        <div class="relative inline-block text-left">
+                                            <!-- Dropdown Button -->
+                                            <button type="button" onclick="toggleDropdown('<?= $v['code'] ?>')"
+                                                class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+                                                aria-expanded="true" aria-haspopup="true">
+                                                Actions
+                                                <i class="fa-solid fa-chevron-down ml-2"></i>
+                                            </button>
+
+                                            <!-- Dropdown Menu -->
+                                            <div id="dropdownMenu<?= $v['code'] ?>"
+                                                class="hidden origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+                                                <div class="py-1" role="menu" aria-orientation="vertical">
+                                                    <button onclick="editVoucher('<?= $v['code'] ?>')"
+                                                        class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                        role="menuitem">Edit</button>
+                                                    <button onclick="deleteUser('<?= $v['code'] ?>')"
+                                                        class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-100"
+                                                        role="menuitem">Delete</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
                             <?php endforeach; ?>
 
                         </tbody>
@@ -213,6 +233,102 @@ function calculate_expiration($voucher) {
             </div>
         </div>
     </div>
+
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg w-96 p-6 relative">
+            <h2 class="text-lg font-semibold mb-4">Delete Voucher</h2>
+            <p class="mb-6">Are you sure you want to delete this voucher? This action cannot be undone.</p>
+            <div class="flex justify-end space-x-2">
+                <button id="cancelDelete"
+                    class="px-4 py-2 rounded border border-gray-300 hover:bg-gray-100">Cancel</button>
+                <button id="confirmDelete"
+                    class="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700">Delete</button>
+            </div>
+            <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">&times;</button>
+        </div>
+    </div>
+
+
+
+    <!-- Add Axios first -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+
+    <script>
+        function toggleDropdown(id) {
+            const menu = document.getElementById('dropdownMenu' + id);
+            menu.classList.toggle('hidden');
+
+            document.querySelectorAll('[id^="dropdownMenu"]').forEach(el => {
+                if (el.id !== 'dropdownMenu' + id) el.classList.add('hidden');
+            });
+        }
+
+        window.addEventListener('click', function (e) {
+            document.querySelectorAll('[id^="dropdownMenu"]').forEach(menu => {
+                const button = menu.previousElementSibling;
+                if (!menu.contains(e.target) && !button.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            });
+        });
+
+        async function deleteUser(code) {
+            if (!confirm('Delete voucher ' + code + '?')) return;
+            try {
+                const r = await axios.post('delete_voucher.php', new URLSearchParams({ code }));
+                if (r.data.success) location.reload();
+                else alert('Delete failed: ' + (r.data.error || 'unknown'));
+            } catch (err) {
+                alert('Delete failed');
+            }
+        }
+
+        function seeMore(code) {
+            alert('See more details for voucher ' + code);
+        }
+
+        function editVoucher(code) {
+            alert('Edit voucher ' + code);
+        }
+
+
+        // delete User function
+        let voucherToDelete = null;
+
+function deleteUser(code) {
+    voucherToDelete = code;
+    document.getElementById('deleteModal').classList.remove('hidden');
+}
+
+document.getElementById('cancelDelete').addEventListener('click', () => {
+    voucherToDelete = null;
+    document.getElementById('deleteModal').classList.add('hidden');
+});
+
+document.getElementById('closeModal').addEventListener('click', () => {
+    voucherToDelete = null;
+    document.getElementById('deleteModal').classList.add('hidden');
+});
+
+document.getElementById('confirmDelete').addEventListener('click', async () => {
+    if (!voucherToDelete) return;
+    try {
+        const r = await axios.post('delete_voucher.php', new URLSearchParams({ code: voucherToDelete }));
+        if (r.data.success) {
+            location.reload();
+        } else {
+            alert('Delete failed: ' + (r.data.error || 'unknown'));
+        }
+    } catch (err) {
+        alert('Delete failed: ' + err);
+    }
+});
+
+    </script>
+
 </body>
 
 </html>

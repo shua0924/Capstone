@@ -100,7 +100,7 @@ $users = $stmt->fetchAll();
 <body class="bg-gray-100">
   <div class="flex">
     <!-- Sidebar (you can paste your existing sidebar HTML) -->
-    <div class="w-64 bg-white-200 h-screen p-8 text-white shadow-lg overflow-y-auto">
+    <div class="w-64 bg-gray h-screen p-8 text-white shadow-lg overflow-y-auto">
       <div class="flex items-center space-x-2 mb-24">
         <h1 class="text-2xl font-semibold text-black">WiFi Hotspot</h1>
       </div>
@@ -259,34 +259,36 @@ $users = $stmt->fetchAll();
               </div>
             </div>
 
-            
-          <div id="successMsg"
-            class="hidden mt-3 text-green-800 bg-green-100 border border-green-300 rounded-md px-3 py-2 text-sm text-center">
-            <strong id="successCode"></strong> — Success! New user created successfully.
-          </div>
 
-          <div class="mt-3">
-            <label class="block text-sm font-medium text-gray-700">Role</label>
-            <div class="flex items-center space-x-6 mt-1">
-              <label class="flex items-center space-x-1">
-                <input type="radio" name="user_type" value="Student" checked>
-                <span>Student</span>
-              </label>
+            <div id="successMsg"
+              class="hidden mt-3 text-green-800 bg-green-100 border border-green-300 rounded-md px-3 py-2 text-sm text-center">
+              <strong id="successCode"></strong> — Success! New user created successfully.
             </div>
-          </div>
 
-          <div class="flex justify-end pt-3">
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md font-medium">Save
-              User</button>
-          </div>
+            <div class="mt-3">
+              <label class="block text-sm font-medium text-gray-700">Role</label>
+              <div class="flex items-center space-x-6 mt-1">
+                <label class="flex items-center space-x-1">
+                  <input type="radio" name="user_type" value="Student" checked>
+                  <span>Student</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="flex justify-end pt-3">
+              <button type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md font-medium">Save
+                User</button>
+            </div>
         </form>
       </div>
     </div>
 
+    <!-- table side  -->
     <div class="w-[1080px] bg-white shadow-md rounded-lg overflow-hidden border border-blue-300 mt-4">
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
         <table class="min-w-full border-collapse">
-          <thead class="bg-[#4B6BFB] text-white">
+          <thead class="bg-[#4B6BFB] text-white sticky z-50">
             <tr>
               <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Student ID</th>
               <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Name</th>
@@ -309,21 +311,37 @@ $users = $stmt->fetchAll();
                 <td class="px-4 py-3 text-sm"><?= htmlentities($u['course_name']) ?></td>
                 <td class="px-4 py-3 text-sm"><?= htmlentities($u['year_level']) ?></td>
                 <td class="px-4 py-3 text-sm <?= $u['status'] === 'Active' ? 'text-green-600' : 'text-red-600' ?>">
-                  <?= htmlentities($u['status']) ?></td>
+                  <?= htmlentities($u['status']) ?>
+                </td>
                 <td class="px-4 py-3 text-sm">
-                  <div class="flex space-x-3">
-                    <a class="text-blue-600 hover:text-blue-800" href="view_user.php?id=<?= $u['user_id'] ?>"
-                      title="See More"><i class="fa-solid fa-eye"></i></a>
-                    <a class="text-green-600 hover:text-green-800" href="edit_user.php?id=<?= $u['user_id'] ?>"><i
-                        class="fas fa-edit"></i></a>
-                    <button onclick="deleteUser(<?= $u['user_id'] ?>)" class="text-red-600 hover:text-red-800"><i
-                        class="fas fa-trash"></i></button>
-                    <button onclick="generateVoucher(<?= $u['user_id'] ?>)" class="text-purple-600 hover:text-purple-800"
-                      title="Generate Voucher">
-                      <i class="fa-solid fa-ticket"></i></button>
-                    <button onclick="generatePassword(<?= $u['user_id'] ?>)" class="text-purple-600 hover:text-purple-800"
-                      title="Generate Password">
-                      <i class="fa-solid fa-key"></i></button>
+                  <div class="relative inline-block text-left">
+                    <button type="button"
+                      class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
+                      id="dropdownButton<?= $u['user_id'] ?>" aria-expanded="true" aria-haspopup="true"
+                      onclick="toggleDropdown(<?= $u['user_id'] ?>)">
+                      Actions
+                      <i class="fa-solid fa-chevron-down ml-2"></i>
+                    </button>
+
+                    <div id="dropdownMenu<?= $u['user_id'] ?>"
+                      class="hidden origin-top-right absolute right-0 mt-2 w-44 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                      <div class="py-1" role="menu" aria-orientation="vertical"
+                        aria-labelledby="dropdownButton<?= $u['user_id'] ?>">
+                        <a href="view_user.php?id=<?= $u['user_id'] ?>"
+                          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">View</a>
+                        <a href="edit_user.php?id=<?= $u['user_id'] ?>"
+                          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Edit</a>
+                        <button onclick="deleteUser(<?= $u['user_id'] ?>)"
+                          class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                          role="menuitem">Delete</button>
+                        <button onclick="generateVoucher(<?= $u['user_id'] ?>)"
+                          class="w-full text-left px-4 py-2 text-sm text-purple-600 hover:bg-gray-100"
+                          role="menuitem">Generate Voucher</button>
+                        <button onclick="generatePassword(<?= $u['user_id'] ?>)"
+                          class="w-full text-left px-4 py-2 text-sm text-purple-600 hover:bg-gray-100"
+                          role="menuitem">Generate Password</button>
+                      </div>
+                    </div>
                   </div>
                 </td>
               </tr>
@@ -332,15 +350,77 @@ $users = $stmt->fetchAll();
         </table>
       </div>
     </div>
-    <?php if (isset($_GET['created'])): ?>
-      <div class="p-4 mb-4 text-green-800 bg-green-200 rounded">
-        User successfully created!
+
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-96 max-w-full text-center relative">
+        <!-- Close X -->
+        <button id="closeSuccessModal"
+          class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl font-bold">×</button>
+
+        <!-- Icon and message -->
+        <i class="fa-solid fa-circle-check text-green-500 text-4xl mb-3"></i>
+        <h3 class="text-lg font-semibold text-gray-700 mb-2">Success!</h3>
+        <p class="text-gray-600 mb-4">New user has been successfully created.</p>
+
+        <!-- OK button -->
+        <button id="okSuccessModal" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded font-medium">
+          OK
+        </button>
       </div>
-    <?php endif; ?>
-  </div>
+    </div>
+
   </div>
 
   <script>
+    // Dropdown function
+    function toggleDropdown(userId) {
+      const menu = document.getElementById('dropdownMenu' + userId);
+      menu.classList.toggle('hidden');
+
+      // Optional: close other dropdowns
+      document.querySelectorAll('[id^="dropdownMenu"]').forEach(el => {
+        if (el.id !== 'dropdownMenu' + userId) {
+          el.classList.add('hidden');
+        }
+      });
+    }
+
+    // Close dropdown if clicked outside
+    window.addEventListener('click', function (e) {
+      document.querySelectorAll('[id^="dropdownMenu"]').forEach(menu => {
+        const button = menu.previousElementSibling;
+        if (!menu.contains(e.target) && !button.contains(e.target)) {
+          menu.classList.add('hidden');
+        }
+      });
+    });
+
+
+    // Successfully js for moadal
+    document.addEventListener("DOMContentLoaded", () => {
+      const successModal = document.getElementById("successModal");
+      const closeBtn = document.getElementById("closeSuccessModal");
+      const okBtn = document.getElementById("okSuccessModal");
+
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('created') === '1') {
+        successModal.classList.remove('hidden');
+      }
+
+      // Close modal with X or OK
+      closeBtn.addEventListener('click', () => successModal.classList.add('hidden'));
+      okBtn.addEventListener('click', () => successModal.classList.add('hidden'));
+
+      // Close on outside click
+      successModal.addEventListener('click', (e) => {
+        if (e.target === successModal) successModal.classList.add('hidden');
+      });
+    });
+
+
+
     const modal = document.getElementById('createUserModal');
     const openModalBtn = document.getElementById('openModalBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
@@ -422,22 +502,22 @@ $users = $stmt->fetchAll();
     });
 
     function generateVoucher(userId) {
-    if (!confirm("Generate voucher for this user?")) return;
+      if (!confirm("Generate voucher for this user?")) return;
 
-    fetch("api_generate_voucher.php?user_id=" + userId)
+      fetch("api_generate_voucher.php?user_id=" + userId)
         .then(response => response.json())
         .then(data => {
-            if (data.status === "success") {
-                alert("Voucher Generated:\n\n" + data.voucher);
-            } else {
-                alert("Error: " + data.message);
-            }
+          if (data.status === "success") {
+            alert("Voucher Generated:\n\n" + data.voucher);
+          } else {
+            alert("Error: " + data.message);
+          }
         })
         .catch(error => {
-            console.error("Error:", error);
-            alert("Something went wrong while generating the voucher.");
+          console.error("Error:", error);
+          alert("Something went wrong while generating the voucher.");
         });
-}
+    }
 
   </script>
 </body>
