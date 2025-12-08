@@ -337,7 +337,7 @@ $users = $stmt->fetchAll();
                         <button onclick="generateVoucher(<?= $u['user_id'] ?>)"
                           class="w-full text-left px-4 py-2 text-sm text-purple-600 hover:bg-gray-100"
                           role="menuitem">Generate Voucher</button>
-                        <button onclick="generatePassword(<?= $u['user_id'] ?>)"
+                        <button onclick="generatePassword('<?= htmlentities($u['school_id']) ?>')"
                           class="w-full text-left px-4 py-2 text-sm text-purple-600 hover:bg-gray-100"
                           role="menuitem">Generate Password</button>
                       </div>
@@ -443,17 +443,48 @@ $users = $stmt->fetchAll();
       }
     });
 
-    document.getElementById('generatePassword').addEventListener('click', async () => {
-      try {
-        const r = await axios.get('api_generate_password.php');
-        const password = r.data.password;
-        // copy password to clipboard & show temporary message
-        await navigator.clipboard.writeText(password);
-        alert('Password generated and copied to clipboard: ' + password);
-      } catch (err) {
-        alert('Could not generate password');
-      }
-    });
+    // New function to generate password and submit it to the API
+    // New function to generate password and submit it to the API
+    async function generatePassword(schoolId) {
+        if (!confirm("Generate and immediately activate a new password for School ID: " + schoolId + "?")) {
+            return;
+        }
+
+        try {
+            // Use axios.post to send the school ID to the PHP API
+            const response = await axios.post('api_generate_password.php', new URLSearchParams({
+                school_id: schoolId
+            }));
+
+            const data = response.data;
+
+            if (data.status === 'success') {
+                const newPassword = data.new_password;
+
+                // 1. Copy to clipboard
+                await navigator.clipboard.writeText(newPassword);
+
+                // 2. Alert/Echo Confirmation (as requested)
+                alert(
+                    "Password Successfully GENERATED and ACTIVATED!" +
+                    "\n\nSchool ID: " + schoolId +
+                    "\nNew Password: " + newPassword +
+                    "\n\n(It has been copied to your clipboard.)"
+                );
+                
+                // 3. Reload the table to show the Active status change
+                location.reload(); 
+
+            } else {
+                // Handle API errors
+                alert("Error generating password: " + (data.error || 'Unknown API error.'));
+            }
+        } catch (error) {
+            // Handle network/server errors
+            console.error("Axios Error:", error);
+            alert("Failed to connect to the server. Check the 'api_generate_password.php' file.");
+        }
+    }
 
     // delete user
     async function deleteUser(id) {
