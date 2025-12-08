@@ -210,7 +210,7 @@ function calculate_expiration($voucher)
 
                                             <!-- Dropdown Menu -->
                                             <div id="dropdownMenu<?= $v['code'] ?>"
-                                                class="hidden origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+                                                class="hidden origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none  z-50">
                                                 <div class="py-1" role="menu" aria-orientation="vertical">
                                                     <button onclick="editVoucher('<?= $v['code'] ?>')"
                                                         class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

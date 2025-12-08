@@ -288,7 +288,7 @@ $users = $stmt->fetchAll();
     <div class="w-[1080px] bg-white shadow-md rounded-lg overflow-hidden border border-blue-300 mt-4">
       <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
         <table class="min-w-full border-collapse">
-          <thead class="bg-[#4B6BFB] text-white sticky z-50">
+          <thead class="bg-[#4B6BFB] text-white sticky top-0 z-10">
             <tr>
               <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Student ID</th>
               <th class="px-4 py-3 text-left text-sm font-semibold border-b border-blue-300">Name</th>
