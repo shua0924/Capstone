@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,7 @@
     <div class="flex">
         <!-- Sidebar -->
 
-        <div class="w-64 bg-white-700  p-8 text-white shadow-lg overflow-y-auto">
+        <div class="w-64 bg-white-700 h-screen  p-8 text-white shadow-lg overflow-y-auto">
             <div class="flex items-center space-x-2 mb-24">
                 <h1 class="text-2xl font-semibold text-black">WiFi Hotspot</h1>
             </div>
@@ -146,9 +147,9 @@
             </div>
 
             <!-- Chart Section -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
                 <!-- Pie Chart for Student Distribution -->
-                <div class="bg-white p-4 rounded-lg shadow border h-[350px] flex flex-col justify-center items-center">
+                <div class="bg-white p-6 rounded-lg shadow border h-[350px] flex flex-col justify-center items-center">
                     <h3 class="text-lg font-semibold mb-3 text-gray-700 text-center">
                         Student Distribution per Course
                     </h3>
@@ -157,7 +158,7 @@
 
                 <!-- Bar Chart for Wi-Fi Connections -->
                 <div
-                    class="bg-white p-4 rounded-lg shadow border border-blue-200 h-[350px] flex flex-col justify-center">
+                    class="bg-white p-6 rounded-lg shadow border border-blue-200 h-[350px] flex flex-col justify-center">
                     <h3 class="text-lg font-semibold mb-3 text-gray-700 text-center">
                         Daily Wi-Fi Connections
                     </h3>
@@ -165,38 +166,6 @@
                 </div>
             </div>
 
-
-
-            <!-- Recent Activity -->
-            <div class="mt-8 bg-white p-4 rounded-lg shadow border border-blue-200">
-                <h3 class="text-lg font-semibold mb-3 text-gray-700">Recent Activities</h3>
-                <table class="min-w-full text-sm border-collapse">
-                    <thead class="bg-[#4B6BFB] text-white">
-                        <tr>
-                            <th class="px-4 py-2 text-left font-medium">Date</th>
-                            <th class="px-4 py-2 text-left font-medium">Activity</th>
-                            <th class="px-4 py-2 text-left font-medium">User</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white text-gray-700">
-                        <tr class="border-b hover:bg-gray-100">
-                            <td class="px-4 py-2">Oct 28, 2025</td>
-                            <td class="px-4 py-2">Voucher Used</td>
-                            <td class="px-4 py-2">Leandro Labos (BSIT)</td>
-                        </tr>
-                        <tr class="border-b hover:bg-gray-100">
-                            <td class="px-4 py-2">Oct 28, 2025</td>
-                            <td class="px-4 py-2">New Account Registered</td>
-                            <td class="px-4 py-2">Gil Z. Arda (BEED)</td>
-                        </tr>
-                        <tr class="hover:bg-gray-100">
-                            <td class="px-4 py-2">Oct 27, 2025</td>
-                            <td class="px-4 py-2">Voucher Expired</td>
-                            <td class="px-4 py-2">BSCRIM User</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 
@@ -211,7 +180,7 @@
                     data: [400, 300, 220, 160, 100, 68],
                     backgroundColor: [
                         '#10B981', '#3b82f6', '#EC4899',
-                        '#ef4444', '#eab308', '#000000'                 
+                        '#ef4444', '#eab308', '#000000'
 
                     ],
                     borderWidth: 1

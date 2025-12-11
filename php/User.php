@@ -97,10 +97,10 @@ $users = $stmt->fetchAll();
   <script src="../css/tailwind.css"></script>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-100 h-screen">
   <div class="flex">
     <!-- Sidebar (you can paste your existing sidebar HTML) -->
-    <div class="w-64 bg-gray h-screen p-8 text-white shadow-lg overflow-y-auto">
+    <div class="w-64 bg-gray h-screen p-8 text-white shadow-lg fixed">
       <div class="flex items-center space-x-2 mb-24">
         <h1 class="text-2xl font-semibold text-black">WiFi Hotspot</h1>
       </div>
@@ -133,9 +133,9 @@ $users = $stmt->fetchAll();
       </ul>
     </div>
 
-    <div class="container mx-auto p-6 flex-1">
+    <div class="ml-64 h-screen overflow-x-hidden p-2">
       <div class="flex justify-between items-center mb-16">
-        <h1 class="text-2xl font-semibold text-black">User</h1>
+        <h1 class="text-2xl font-semibold text-black pl-2">User</h1>
         <div class="flex items-center space-x-2">
           <img src="../images/ceclogo.png" alt="CEC Logo" class="w-10 h-10 object-contain">
           <span class="text-xl text-gray-800">Admin</span>
@@ -286,7 +286,7 @@ $users = $stmt->fetchAll();
 
     <!-- table side  -->
     <div class="w-[1080px] bg-white shadow-md rounded-lg overflow-hidden border border-blue-300 mt-4">
-      <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
+      <div class="">
         <table class="min-w-full border-collapse">
           <thead class="bg-[#4B6BFB] text-white sticky top-0 z-10">
             <tr>
@@ -302,7 +302,7 @@ $users = $stmt->fetchAll();
 
           <tbody class="bg-white">
             <?php foreach ($users as $u): ?>
-              <tr class="hover:bg-gray-100 border-b border-gray-200">
+              <tr class="hover:bg-gray-100 border-b border-gray-200 group relatives">
                 <td class="px-4 py-3 text-sm"><?= htmlentities($u['school_id']) ?></td>
                 <td class="px-4 py-3 text-sm">
                   <?= htmlentities($u['first_name'] . ' ' . ($u['middle_name'] ? $u['middle_name'] . ' ' : '') . $u['last_name']) ?>
@@ -313,7 +313,7 @@ $users = $stmt->fetchAll();
                 <td class="px-4 py-3 text-sm <?= $u['status'] === 'Active' ? 'text-green-600' : 'text-red-600' ?>">
                   <?= htmlentities($u['status']) ?>
                 </td>
-                <td class="px-4 py-3 text-sm">
+                <td class="px-4 py-3 text-sm ">
                   <div class="relative inline-block text-left">
                     <button type="button"
                       class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
@@ -370,6 +370,21 @@ $users = $stmt->fetchAll();
         </button>
       </div>
     </div>
+
+    <!-- delete Modal -->
+     <!-- Delete Modal -->
+<div id="deleteModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-lg w-96 p-6 relative">
+    <h2 class="text-lg font-semibold mb-4">Delete User</h2>
+    <p class="mb-6">Are you sure you want to delete this user? This action cannot be undone.</p>
+    <div class="flex justify-end space-x-2">
+      <button id="cancelDelete" class="px-4 py-2 rounded border border-gray-300 hover:bg-gray-100">Cancel</button>
+      <button id="confirmDelete" class="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700">Delete</button>
+    </div>
+    <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">&times;</button>
+  </div>
+</div>
+
 
   </div>
 
@@ -532,23 +547,31 @@ $users = $stmt->fetchAll();
 
     });
 
-    function generateVoucher(userId) {
-      if (!confirm("Generate voucher for this user?")) return;
 
-      fetch("api_generate_voucher.php?user_id=" + userId)
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === "success") {
-            alert("Voucher Generated:\n\n" + data.voucher);
-          } else {
+    // Generate voucher
+    function generateVoucher(userId) {
+    if (!confirm("Generate voucher for this user?")) return;
+
+    fetch("api_generate_voucher.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "user_profile_id=" + userId
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            // Access the voucher code from object
+            alert("Voucher Generated:\n\n" + data.voucher.code);
+        } else {
             alert("Error: " + data.message);
-          }
-        })
-        .catch(error => {
-          console.error("Error:", error);
-          alert("Something went wrong while generating the voucher.");
-        });
-    }
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Something went wrong while generating the voucher.");
+    });
+}
+
 
   </script>
 </body>

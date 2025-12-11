@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2025 at 02:34 PM
+-- Generation Time: Dec 11, 2025 at 09:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -117,18 +117,13 @@ CREATE TABLE `users_profile` (
 --
 
 INSERT INTO `users_profile` (`user_id`, `school_id`, `first_name`, `middle_name`, `last_name`, `gmail`, `contact_number`, `course_name`, `year_level`, `gender`, `user_type`, `voucher_code`, `password_generated`, `status`, `created_at`) VALUES
-(4, '2210992', 'Nick Lourence', '', 'Brandares', 'nlbrandares@gmail.com', '09227999000', 'BSIT', '3rd Year', 'Male', 'Student', NULL, NULL, 'Active', '2025-11-27 15:07:48'),
-(5, 'c', 'c', 'c', 'c', 'c@gmail.com', '09214801924', 'BSTM', '3rd Year', 'Other', 'Student', NULL, NULL, 'Active', '2025-11-27 15:24:58'),
-(6, 'd', 'd', 'd', 'd', 'd@gmail.com', '09227999000', 'BSCRIM', '1st Year', 'Other', 'Student', NULL, NULL, 'Active', '2025-11-29 08:42:02'),
-(7, 'e', 'e', 'e', 'e', 'e@gmail.com', '123456', 'BSTM', '4th Year', 'Other', 'Student', NULL, NULL, 'Active', '2025-12-02 10:39:52'),
 (8, '2210992', 'Henry', 'D', 'Nacorda', 'rei@gmail.com', '09184502288', 'BSIT', '4th Year', 'Male', 'Student', NULL, NULL, 'Active', '2025-12-03 16:48:35'),
-(11, '12312312', 'Jessabel', 'N', 'Sinambong', 'jessabel@gmail.com', '09223231231', 'BSHM', '3rd Year', 'Female', 'Student', NULL, NULL, 'Active', '2025-12-03 17:24:38'),
-(12, '1312442', 'Dex', 'R', 'Arriesgado', 'dex@gmail.com', '0922323134', 'BSIT', '4th Year', 'Male', 'Student', NULL, NULL, 'Active', '2025-12-04 06:54:58'),
-(13, '12346789', 'jerecho', 'e', 'latosa', 'jerecho@gmail.com', '0972389529', 'BSIT', '1st Year', 'Male', 'Student', NULL, NULL, 'Active', '2025-12-04 07:06:13'),
-(14, '823701', 'dummy', 'e', 'dum', 'dummy@gmail.com', '098272352', 'BSIT', '1st Year', 'Male', 'Student', NULL, NULL, 'Active', '2025-12-04 07:09:00'),
-(15, '12312312', 'Jessabel', 'N', 'Sinambong', 'jessabel@gmail.com', '09223231231', 'BSIT', '1st Year', 'Male', 'Student', NULL, NULL, 'Active', '2025-12-04 09:38:46'),
-(16, '12346789', 'jerecho', 'e', 'latosa', 'dex@gmail.com', '0922323134', 'BSIT', '1st Year', 'Male', 'Student', NULL, NULL, 'Active', '2025-12-04 09:44:54'),
-(17, '11431434', 'GIL', 'b', 'arda', 'ARDA@gmail.com', '0922424222', 'BSIT', '1st Year', 'Male', 'Student', NULL, NULL, 'Active', '2025-12-04 10:09:45');
+(26, '12346789', 'Jessabel', 'N', 'Sinambong', 'jessabel@gmail.com', '0922323134', 'BSHM', '3rd Year', 'Female', 'Student', NULL, '$2y$10$ugK41MagMZZ8mRz74VL7veFQxWApXZdzo4ZQsaG.gicbXj0mP57ZC', 'Active', '2025-12-07 09:17:26'),
+(32, '12312312', 'jerecho', 'N', 'Sinambong', 'dex@gmail.com', '0922323134', 'BSIT', '1st Year', 'Female', 'Student', NULL, '$2y$10$osNhrn82NwtpPavpjHsO0.z5VDi34p21xRSKmsWcyVd6kOP.JywGy', 'Active', '2025-12-07 15:07:10'),
+(33, '1312442', 'Jessabel', 'e', 'Sinambong', 'dex@gmail.com', '09223231231', 'BSED', '1st Year', 'Other', 'Student', NULL, NULL, 'Active', '2025-12-07 15:07:22'),
+(36, '12312312', 'jerecho', 'b', 'Arriesgado', 'jerecho@gmail.com', '0972389529', 'BSED', '2nd Year', 'Female', 'Student', NULL, '$2y$10$osNhrn82NwtpPavpjHsO0.z5VDi34p21xRSKmsWcyVd6kOP.JywGy', 'Active', '2025-12-07 15:21:00'),
+(41, '12312312', 'Joshua', 'B', 'Caballes', 'joshuacaballes@gmail.com', '0923231412', 'BSIT', '4th Year', 'Male', 'Student', NULL, '$2y$10$osNhrn82NwtpPavpjHsO0.z5VDi34p21xRSKmsWcyVd6kOP.JywGy', 'Active', '2025-12-10 05:34:00'),
+(44, '12312312', 'qqw', 'e', 'Arriesgado', 'dex@gmail.com', '09223231231', 'BSIT', '1st Year', 'Male', 'Student', NULL, NULL, 'Active', '2025-12-11 03:38:21');
 
 -- --------------------------------------------------------
 
@@ -151,10 +146,12 @@ CREATE TABLE `vouchers` (
 --
 
 INSERT INTO `vouchers` (`user_profile_id`, `id`, `code`, `used`, `created_at`, `used_at`, `time_limit_minutes`) VALUES
-(14, 41, 'CEC - WIFI HOTSPOT - 361006d', 0, '2025-12-04 15:19:28', NULL, 0),
-(15, 42, 'CEC - WIFI HOTSPOT - 553a8bc', 0, '2025-12-04 17:38:52', NULL, 0),
-(16, 43, 'CEC - WIFI HOTSPOT - 9844cd0', 0, '2025-12-04 17:45:12', NULL, 0),
-(17, 44, 'CEC - WIFI HOTSPOT - 479d7fe', 0, '2025-12-04 18:10:03', NULL, 0);
+(26, 50, 'CEC - WIFI HOTSPOT - 5262b15', 0, '2025-12-07 22:29:32', NULL, 0),
+(8, 54, 'CEC - WIFI HOTSPOT - 3079155', 0, '2025-12-07 23:06:43', NULL, 0),
+(33, 55, 'CEC - WIFI HOTSPOT - 2797da9', 0, '2025-12-07 23:15:01', NULL, 0),
+(41, 65, 'CEC - WIFI HOTSPOT - 1631a68', 0, '2025-12-10 13:54:00', NULL, 0),
+(41, 69, 'CEC - WIFI HOTSPOT - 465bede', 0, '2025-12-11 11:13:21', NULL, 0),
+(41, 72, 'CEC - WIFI HOTSPOT - 112c268', 0, '2025-12-11 11:33:03', NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -198,7 +195,7 @@ ALTER TABLE `users_profile`
 ALTER TABLE `vouchers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `code` (`code`) USING HASH,
-  ADD KEY `user_profile_id` (`user_profile_id`);
+  ADD KEY `vouchers_ibfk_1` (`user_profile_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -232,13 +229,13 @@ ALTER TABLE `users_log`
 -- AUTO_INCREMENT for table `users_profile`
 --
 ALTER TABLE `users_profile`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `vouchers`
 --
 ALTER TABLE `vouchers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- Constraints for dumped tables
