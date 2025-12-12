@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2025 at 09:36 AM
+-- Generation Time: Dec 12, 2025 at 06:21 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -122,8 +122,7 @@ INSERT INTO `users_profile` (`user_id`, `school_id`, `first_name`, `middle_name`
 (32, '12312312', 'jerecho', 'N', 'Sinambong', 'dex@gmail.com', '0922323134', 'BSIT', '1st Year', 'Female', 'Student', NULL, '$2y$10$osNhrn82NwtpPavpjHsO0.z5VDi34p21xRSKmsWcyVd6kOP.JywGy', 'Active', '2025-12-07 15:07:10'),
 (33, '1312442', 'Jessabel', 'e', 'Sinambong', 'dex@gmail.com', '09223231231', 'BSED', '1st Year', 'Other', 'Student', NULL, NULL, 'Active', '2025-12-07 15:07:22'),
 (36, '12312312', 'jerecho', 'b', 'Arriesgado', 'jerecho@gmail.com', '0972389529', 'BSED', '2nd Year', 'Female', 'Student', NULL, '$2y$10$osNhrn82NwtpPavpjHsO0.z5VDi34p21xRSKmsWcyVd6kOP.JywGy', 'Active', '2025-12-07 15:21:00'),
-(41, '12312312', 'Joshua', 'B', 'Caballes', 'joshuacaballes@gmail.com', '0923231412', 'BSIT', '4th Year', 'Male', 'Student', NULL, '$2y$10$osNhrn82NwtpPavpjHsO0.z5VDi34p21xRSKmsWcyVd6kOP.JywGy', 'Active', '2025-12-10 05:34:00'),
-(44, '12312312', 'qqw', 'e', 'Arriesgado', 'dex@gmail.com', '09223231231', 'BSIT', '1st Year', 'Male', 'Student', NULL, NULL, 'Active', '2025-12-11 03:38:21');
+(41, '12312312', 'Joshua', 'B', 'Caballes', 'joshuacaballes@gmail.com', '0923231412', 'BSIT', '4th Year', 'Male', 'Student', NULL, '$2y$10$osNhrn82NwtpPavpjHsO0.z5VDi34p21xRSKmsWcyVd6kOP.JywGy', 'Active', '2025-12-10 05:34:00');
 
 -- --------------------------------------------------------
 
@@ -146,12 +145,8 @@ CREATE TABLE `vouchers` (
 --
 
 INSERT INTO `vouchers` (`user_profile_id`, `id`, `code`, `used`, `created_at`, `used_at`, `time_limit_minutes`) VALUES
-(26, 50, 'CEC - WIFI HOTSPOT - 5262b15', 0, '2025-12-07 22:29:32', NULL, 0),
-(8, 54, 'CEC - WIFI HOTSPOT - 3079155', 0, '2025-12-07 23:06:43', NULL, 0),
-(33, 55, 'CEC - WIFI HOTSPOT - 2797da9', 0, '2025-12-07 23:15:01', NULL, 0),
-(41, 65, 'CEC - WIFI HOTSPOT - 1631a68', 0, '2025-12-10 13:54:00', NULL, 0),
-(41, 69, 'CEC - WIFI HOTSPOT - 465bede', 0, '2025-12-11 11:13:21', NULL, 0),
-(41, 72, 'CEC - WIFI HOTSPOT - 112c268', 0, '2025-12-11 11:33:03', NULL, 0);
+(41, 1, 'CEC - WIFI HOTSPOT - 526e80c', 0, '2025-12-12 12:29:10', NULL, 0),
+(36, 2, 'CEC - WIFI HOTSPOT - 3401652', 0, '2025-12-12 13:02:52', NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -235,7 +230,7 @@ ALTER TABLE `users_profile`
 -- AUTO_INCREMENT for table `vouchers`
 --
 ALTER TABLE `vouchers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
